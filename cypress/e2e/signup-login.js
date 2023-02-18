@@ -7,10 +7,9 @@ describe('Signup and Login', () => {
     let email = "auto_email" + randomString + "@example.com";
     const password = "Password1";
 
-    it.only('Test valid Signup', () => {
+    it('Test valid Signup', () => {
         //https://api.realworld.io/api/users
         cy.intercept("POST", "**/*.realworld.io/api/users").as("newUser");
-
 
         cy.visit("http://localhost:4200/")
 
@@ -34,16 +33,35 @@ describe('Signup and Login', () => {
             expect(response.statusCode).to.eq(200);
             expect(request.body.user.username).to.eq(userNmae);
             expect(request.body.user.email).to.eq(email);
-
         })
     });
 
     it('Test valid login', () => {
-        cy.get("http://localhost:4200/")
+        cy.visit("http://localhost:4200/")
         cy.get(".nav").contains("Sign in").click();
         cy.get("[placeholder='Email']").type(email);
         cy.get("[placeholder='Password']").type(password);
         cy.get("button").contains("Sign in").click();
     });
+
+    it('Mock Popular Tags /tags API response', () => {
+        //https://api.realworld.io/api/tags
+        cy.intercept("GET", "**/tags", {fixture: 'popularTags.json'});
+
+        cy.visit("http://localhost:4200/")
+
+        cy.get(".tag-list").should("contain", "JavaScript").and("contain", "Selenium");
+
+    });
+
+    it("Mock Global feed data", () => {
+        //https://api.realworld.io/api/articles?limit=10&offset=0
+        cy.intercept("GET", "**/articles*", {fixture: 'globalFeedResponse.json'}).as("Globalfeed");
+
+        cy.visit("http://localhost:4200/")
+
+        cy.wait("@Globalfeed");
+
+    })
     
 });

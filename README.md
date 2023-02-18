@@ -1,3 +1,22 @@
+# Steps to run test cases for this project
+
+## Run local server
+```bash
+npm start
+```
+## Run Cypress Open
+```bash
+npx cypress open
+```
+## Git Link 
+```bash
+git remote -v
+```
+```
+origin  https://github.com/atishm08/angular-realworld-example-app.git (fetch)
+origin  https://github.com/atishm08/angular-realworld-example-app.git (push)
+```
+
 [![RealWorld Frontend](https://img.shields.io/badge/realworld-frontend-%23783578.svg)](http://realworld.io)
 [![Build Status](https://travis-ci.org/gothinkster/angular-realworld-example-app.svg?branch=master)](https://travis-ci.org/gothinkster/angular-realworld-example-app)
 
